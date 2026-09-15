@@ -2,8 +2,7 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 function(install_pi_interface_targets TARGET_NAME)
-    target_include_directories(
-            pi-${TARGET_NAME} INTERFACE
+    target_include_directories(pi-${TARGET_NAME} INTERFACE
             "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>"
             "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
@@ -23,13 +22,13 @@ function(install_pi_package TARGET_NAME)
             NAMESPACE pi::
             DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/pi-${TARGET_NAME})
 
-    write_basic_package_version_file(
-            ${CMAKE_CURRENT_BINARY_DIR}/pi-${TARGET_NAME}-config-version.cmake
-            VERSION ${PROJECT_VERSION}
-            COMPATIBILITY AnyNewerVersion)
+    set(pi_library_version_filepath "${CMAKE_CURRENT_BINARY_DIR}/pi-${TARGET_NAME}-config-version.cmake")
+    write_basic_package_version_file(${pi_library_version_filepath}
+                                     VERSION ${PROJECT_VERSION}
+                                     COMPATIBILITY AnyNewerVersion)
 
     install(FILES
-            ${CMAKE_CURRENT_BINARY_DIR}/pi-${TARGET_NAME}-config.cmake
-            ${CMAKE_CURRENT_BINARY_DIR}/pi-${TARGET_NAME}-config-version.cmake
+                pi-${TARGET_NAME}-config.cmake
+                ${pi_library_version_filepath}
             DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/pi-${TARGET_NAME})
 endfunction()
