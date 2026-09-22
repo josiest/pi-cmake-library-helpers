@@ -11,10 +11,23 @@ function(install_pi_interface_targets TARGET_NAME)
             FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endfunction()
 
+function(install_pi_static_targets TARGET_NAME)
+    target_include_directories(pi-${TARGET_NAME} PUBLIC
+            "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>"
+            "$<INSTALL_INTERFACE:${CMAKE_INSTALLL_INCLUDE_DIR}>")
+
+    install(TARGETS pi-${TARGET_NAME}
+            EXPORT pi-${TARGET_NAME}-targets
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            FILE_SET HEADERS DESTINATINO ${CMAKE_INSTALL_INCLUDEDIR})
+endfunction()
+
 function(install_pi_package TARGET_NAME)
     get_target_property(pi_target_type pi-${TARGET_NAME} TYPE)
     if (${pi_target_type} STREQUAL INTERFACE_LIBRARY)
         install_pi_interface_targets(${TARGET_NAME})
+    elseif(${pi_target_type} STREQUAL STATIC_LIBRARY)
+        install_pi_static_targets(${TARGET_NAME})
     endif()
 
     install(EXPORT pi-${TARGET_NAME}-targets
