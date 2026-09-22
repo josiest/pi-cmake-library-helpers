@@ -19,7 +19,7 @@ function(install_pi_static_targets TARGET_NAME)
     install(TARGETS pi-${TARGET_NAME}
             EXPORT pi-${TARGET_NAME}-targets
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-            FILE_SET HEADERS DESTINATINO ${CMAKE_INSTALL_INCLUDEDIR})
+            FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endfunction()
 
 function(install_pi_package TARGET_NAME)
